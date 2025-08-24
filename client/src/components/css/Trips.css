@@ -1,0 +1,198 @@
+.trips{
+    font-family: 'Space Mono';
+    background-color: #131313;
+    color: white;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+
+    .header{
+        width: 100%;
+        text-align: left;
+        padding: 1.5rem;
+
+        display: flex;
+        justify-content: end;
+        align-items: center;
+
+        gap: 1rem;
+
+        a.logo-link{
+            all:unset;
+            margin-right: auto;
+
+            .logo{
+            padding: 0.5rem;
+            align-self: start;
+            font-size: 2rem;
+            line-height: 2rem;
+            span{
+                color: #ffb732;
+            }
+            transition: 0.2s ease;
+            width: fit-content;
+
+            }
+
+            .logo:hover{
+                cursor: pointer;
+                background-color: #88888820;
+            }
+        }
+
+        .btn{
+            
+            all: unset;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 5%;
+            color: #131313;
+            transition: 0.4s ease;
+
+        }
+
+        .btn:hover{
+            cursor: pointer;
+        }
+
+        .btn-1{
+            background-color: #ffb732;
+        }
+
+        .btn-1:hover{
+            background-color: #d6951c;
+        }
+
+        .pfp-btn{
+            width: 50px;
+            padding: 0.5rem;
+            transition: 0.5s ease;
+        }
+
+        .pfp-btn:hover{
+            background-color: #8e8e8e4a;
+        }
+        
+        
+    }
+
+    h1{
+        padding: 0rem 3rem;
+        font-size: 1.5rem;
+    }
+
+    .trips-container{
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+
+        .trip-container{
+            padding: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: linear-gradient(45deg , rgba(255,255,255,0.05) 75%, rgba(0,0,0,0.2));
+            overflow: hidden;
+            padding-bottom: 3rem;
+
+            position: relative;
+
+
+            .line{
+                height: 2px;
+                background-color: white;
+                width: 100%;
+                margin: 1rem 0;
+            }
+
+            .row{
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                gap: 1rem;
+                margin-bottom: 0.5rem;
+            
+                svg{
+                    width: 25px;
+                }
+            }
+
+            .btns-container{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+
+                width: 100%;
+                height: 20%;
+
+                transform: translate(0, 150%);
+                opacity: 0;
+                transition: 0.4s ease-out;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .btn-view-trip{
+                    all: unset;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(to top, #ffb732 50%, rgba(0,0,0,0.05));
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    gap: 1rem;
+
+                    color: black;
+
+                    cursor: pointer;
+                    svg{
+                        width: 40px;
+                        transform: scale(1);
+                        transition: 0.15s ease-out;
+                    }
+
+                    svg:hover{
+                        transform: scale(1.4);
+                    }
+                }
+
+                .btn-delete{
+                    all: unset;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(to top, #ff3232 50%, rgba(0,0,0,0.05));
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    gap: 2rem;
+
+                    color: black;
+
+                    cursor: pointer;
+                    svg{
+                        width: 35px;
+                        transform: scale(1);
+                        transition: 0.2s ease;
+                    }
+
+                    svg:hover{
+                        transform: scale(1.3);
+                    }
+                }
+
+
+            }
+
+            .btns-container.show{
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+        }
+    }
+}

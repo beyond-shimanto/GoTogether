@@ -1,0 +1,246 @@
+.trip-view{
+    background-color: #131313;
+    color: white;
+    font-family: 'Space Mono';
+    padding: 1rem;
+
+    min-height: 100vh;
+
+    .logo-link{
+
+        all: unset;
+        cursor: pointer;
+        
+
+        .logo{
+        font-size: 2rem;
+        line-height: 2rem;
+        width: fit-content;
+        padding: 0.5rem 0;
+
+        span{
+            color: #ffb732;
+        }
+
+        transition: 0.5s ease-out;
+
+        }
+
+        
+
+        .logo:hover{
+            background-color: #88888884;
+        }
+
+    }
+
+    .line{
+        width: 100%;
+        height: 2px;
+        background-color: white;
+        margin: 1rem 0;
+    }
+
+    .row{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 1rem;
+
+        svg{
+            width: 1rem;
+        }
+
+
+        .btn{
+            all:unset;
+            cursor: pointer;
+            margin: 0;
+            margin-left: 1rem;
+            background-color: #ffb732;
+            color: black;
+            padding: 0.25rem;
+            border-radius: 3%;
+            font-weight: bold;
+            transition: 0.3s ease-in;
+            
+        }
+
+        .btn:hover{
+            background-color: #c28719;
+        }
+
+    }
+
+    .row.add-reply-row{
+        svg{
+            width: 40px;
+            transition: 0.3s ease-in;
+        }
+
+        svg.rotate{
+            transform: rotate(180deg);
+        }
+
+        .btn{
+            background-color: transparent;
+            color: white;
+        }
+    }
+
+    .body-container{
+        margin: 1rem 0;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .grey-text{
+            opacity: 0.5;
+        }
+    }
+
+    .reply-fields-container.show{
+        height: 600px;
+    }
+
+    .reply-fields-container{
+
+        height: 0;
+        overflow: hidden;
+        transition: 0.3s ease-in;
+
+        .fields{
+
+            display: flex;
+            flex-direction: column;
+
+            height: 250px;
+
+            input, textarea{
+                all: unset;
+                font-size: 1.2rem;
+                padding: 5px;
+                
+            }
+            input:focus, textarea:focus{
+                backdrop-filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
+                box-shadow: 0px 0px 1px 1px #888888;
+            }
+
+            input{
+                height: 20%;
+            }
+
+            textarea{
+                height: 80%;
+            }
+
+        }
+
+    }
+
+    .replies-container{
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        
+        .reply-container{
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 0.5rem;
+
+            .line{
+                width: auto;
+                height: 3px;
+                background-color: white;
+                margin: 10px 0;
+            }
+
+            .row{
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                gap: 1rem;
+
+
+                .btn.btn-delete{
+                    all:unset;
+                    background-color: transparent;
+                    padding: 0.2rem;
+                    margin: 0.2rem;
+                    opacity: 0;
+
+                    font-size: 1rem;
+                    transition: 0.3s ease-in;
+
+                    svg{
+                        width: 20px;
+                    }
+                }
+
+                .btn.btn-delete:hover{
+                    cursor: pointer;
+                }
+
+                .btn.btn-delete.show{
+                    opacity: 1;
+                }
+
+                .btn.btn-add-to-chat{
+                    all:unset;
+                    background-color: #ffb732;
+                    padding: 0.25rem;
+                    color: black;
+                    opacity: 0;
+                    transition: 0.3s ease-in;
+                }
+
+                .btn.btn-add-to-chat:hover{
+                    cursor: pointer;
+                    background-color: #9e6b0c;
+                    
+                }
+
+                .btn.btn-add-to-chat.show{
+                    opacity: 1;
+                }
+
+                
+            }
+
+            .suggestion{
+                padding: 1rem;
+                border: 1px solid #ffb73270;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                svg{
+                    width: 40px;
+                }
+
+                .btn.btn-accept{
+                    all: unset;
+                    background-color: #ffb732;
+                    
+                    padding: 0.5rem;
+                    opacity: 0;
+                    transition: 0.3s ease-in;
+                }
+
+                .btn.btn-accept:hover{
+                    all: unset;
+                    background-color: #c2830d;
+                    padding: 0.5rem;
+                    cursor: pointer;
+                }
+
+                .btn.btn-accept.show{
+                    opacity: 1;
+                }
+            }
+        }
+
+
+    }
+
+
+}

@@ -1,0 +1,37 @@
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG5Eb2U0IiwicGFzc3dvcmQiOiJtZXdvIiwiaWF0IjoxNzU1MDI5NTQzLCJleHAiOjE3NTUwMzMxNDN9.mZ1xVZ8IShHnMN5zJD2rH-tYAtFXQYtivSqb47tmXyE
+
+###
+
+GET http://localhost:5000/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG5Eb2U0IiwicGFzc3dvcmQiOiJtZXdvIiwiaWF0IjoxNzU1MDI0OTk4LCJleHAiOjE3NTUwMjg1OTh9.wYlrejjfM14FlVBTX3Tqz52JTEAxUSxXpXcN1MzFGxc
+
+
+###
+
+POST http://localhost:5000/users/signup
+Content-Type: application/json
+
+{
+    "username": "JohnDoe3",
+    "password": "mewo",
+    "email": "john.doe@meow.com"
+}
+
+###
+
+POST http://localhost:5000/users/login
+Content-Type: application/json
+
+{
+    "username": "JohnDoe4",
+    "password": "mewo"
+}
+
+###
+
+
+
+ 
+
+

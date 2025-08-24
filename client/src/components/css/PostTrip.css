@@ -1,0 +1,80 @@
+.post-trip{
+    font-family: 'Space Mono';
+    width: 100%;
+    height: 100vh;
+
+    background-color: #131313;
+    color: white;
+
+    padding: 2rem;
+
+
+    .logo-link{
+
+        all: unset;
+        cursor: pointer;
+        
+
+        .logo{
+        font-size: 2rem;
+        line-height: 2rem;
+        width: fit-content;
+        padding: 0.5rem 0;
+
+        span{
+            color: #ffb732;
+        }
+
+        transition: 0.5s ease-out;
+
+        }
+
+        
+
+        .logo:hover{
+            background-color: #88888884;
+        }
+
+    }
+
+    .line{
+        width: 100%;
+        height: 2px;
+        background-color: white;
+        margin: 1rem 0;
+    }
+    
+    h1{
+        font-size: 1.5rem;
+    }
+
+
+    .fields{
+
+        display: flex;
+        flex-direction: column;
+
+        height: 40%;
+
+        input, textarea{
+            all: unset;
+            font-size: 1.2rem;
+            padding: 5px;
+            
+        }
+        input:focus, textarea:focus{
+            backdrop-filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
+            box-shadow: 0px 0px 1px 1px #888888;
+        }
+
+        input{
+            height: 20%;
+        }
+
+        textarea{
+            height: 80%;
+        }
+
+    }
+
+}
