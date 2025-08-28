@@ -104,3 +104,34 @@ userRouter.post('/login', async (req, res) => {
         res.status(500).json({error: 'Failed to login'})
     }
 })
+
+
+
+
+//Ratul's part.......
+
+userRouter.get('/:username/get-reviews', validateAuthentication, async (req, res) => {
+    const revieweeUsername = req.params.username
+    
+    try {
+        const [results,fields] = await db.query('SELECT * FROM review WHERE reviewee_username = ?', [revieweeUsername])
+        res.status(200).json(results)
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).json({message: 'Cound not retrive reviews'})
+    }
+})
+
+userRouter.get('/:username/get-profile-info', validateAuthentication, async (req, res) => {
+    const profileUsername = req.params.username
+
+    try{
+        const [results, fields] = await db.query('SELECT username, email, full_name, registered_at, date_of_birth FROM user WHERE username = ?',[profileUsername])
+        res.status(200).json(results)
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).json({message: 'Failed to retrieve  profile info'})
+    }
+})
