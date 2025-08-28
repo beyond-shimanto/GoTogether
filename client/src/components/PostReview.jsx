@@ -1,12 +1,13 @@
 import React, { useContext, useEffect,useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../AuthContext'
 import './css/PostReview.css'
 
 
+
 export const PostReview = () => {
 
-
+    const navigate = useNavigate()
     const {username, axiosInstance, handleAuth} = useContext(AuthContext)
     const {tripId} = useParams()
     const [chatMembers, setChatMembers] = useState([])
@@ -36,7 +37,25 @@ export const PostReview = () => {
     }
 
     async function handleSubmit(){
-        console.log('hello')
+
+        const reqData = {
+            revieweeUsername: formReviewFor,
+            rating: formReviewRating,
+            review: formReviewBody
+        }
+
+        try{
+            const res = await axiosInstance.post(`trips/${tripId}/create-review`, reqData)
+            setSuccess('successfully added review')
+            setTimeout(()=> {
+                navigate(`/trips/${tripId}`)
+            }, 500)
+            
+        }
+        catch(e){
+            console.log(e)
+            setError('Couldn not give review')
+        }
     }
 
     useEffect(()=> {

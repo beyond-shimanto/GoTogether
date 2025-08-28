@@ -126,6 +126,17 @@
                 justify-content: start;
                 gap: 1rem;
                 margin-bottom: 0.5rem;
+
+                a{
+                    all:unset;
+                    font-size: 1rem;
+                    padding: 0.1rem;
+                    transition: 0.3s ease-in;
+                    cursor: pointer;
+                }
+                a:hover{
+                    background-color: #ffb732;
+                }
             
                 svg{
                     width: 25px;

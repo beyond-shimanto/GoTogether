@@ -51,6 +51,17 @@
             width: 1rem;
         }
 
+        a{
+            padding: 0.1rem;
+            all: unset;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s ease-in;
+        }
+        a:hover{
+            background-color: #ffb732;
+        }
+
 
         .btn{
             all:unset;
