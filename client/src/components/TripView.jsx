@@ -38,10 +38,13 @@ export const TripView = () => {
 
     const {tripId} = useParams()
     const [trip, setTrip] = useState([])
+    const [isChatActive, setIsChatActive] = useState(false)
     const [chatMembers, setChatMembers] = useState([])
     const [replyFormTitle, setReplyFormTitle] = useState('')
     const [replyFormBody, setReplyFormBody] = useState('')
+    const [replyFormSuggestedTimeCheck, setReplyFormSuggestedTimeCheck] = useState(false)
     const [replyFormSuggestedTime, setReplyFormSuggestedTime] = useState('')
+    const [replyFormSuggestedRouteCheck, setReplyFormSuggestedRouteCheck] = useState(false)
     const [replyFormSuggestedRoute, setReplyFormSuggestedRoute] = useState('')
     const [success, setSuccess] = useState('')
     const [error, setError] = useState('')
@@ -60,6 +63,24 @@ export const TripView = () => {
         catch(e){
             console.log(e)
         }
+
+
+        await handleAuth()
+        try{
+            const chat_active_res = await axiosInstance.get(`trips/chat/${tripId}/get-chat`)
+            if(chat_active_res.data.length < 1){
+                setIsChatActive(false)
+            }else{
+                setIsChatActive(true)
+            }
+
+        }
+        catch(e){
+            console.log(e)
+        }
+
+
+
         await handleAuth()
         try{
             const chat_members_res = await axiosInstance.get(`trips/chat/${tripId}/get-chat-members`)
@@ -110,12 +131,28 @@ export const TripView = () => {
             return
         }
 
+        if(replyFormSuggestedRouteCheck &&  replyFormSuggestedRoute.split(' -> ').length < 2){
+             setError('Route not complete')
+             return
+        }
+
         try{
+
+
+            let st = ''
+            let sr = ''
+            if (replyFormSuggestedRouteCheck){
+                sr = replyFormSuggestedRoute
+            }
+            if(replyFormSuggestedTimeCheck){
+                st = replyFormSuggestedTime
+            }
+
             const reqData = {
                 title: replyFormTitle,
                 body: replyFormBody,
-                suggestedTime: replyFormSuggestedTime,
-                suggestedRoute : replyFormSuggestedRoute
+                suggestedTime: st,
+                suggestedRoute : sr
             }
             const res = await axiosInstance.post(`trips/${tripId}/create-reply`, reqData)
             getTripReplies()
@@ -184,7 +221,27 @@ export const TripView = () => {
         setReplyFormSuggestedTime(time)
     }
 
+    async function handleConfirmRide(){
+        await handleAuth()
+
+        try{
+            
+            const res = await axiosInstance.post(`trips/chat/${tripId}/create-chat`)
+            handleAddToRideChat(username)
+            getTripInfo()
+
+
+        }catch(e){
+            console.log(e)
+        }
+        
+
+    }
+
     async function handleAddToRideChat(add_username){
+
+
+
         handleAuth()
         try{
             const reqData = {
@@ -254,7 +311,8 @@ export const TripView = () => {
                 <div className="row">
                     <h1>{trip.title}</h1>
                     {chatMembers.includes(username) && <Link className='btn btn-confirm' to={`/trips/${tripId}/chat`}>View Ride Chat</Link>}
-                    {((trip.username === username) && (chatMembers.length === 0)) && <button className='btn btn-confirm' onClick={e => handleAddToRideChat(username)}> Confirm Ride </button>}
+                    {((trip.username === username) && (!isChatActive)) && <button className='btn btn-confirm' onClick={e => handleConfirmRide()}> Confirm Ride </button>}
+                    {chatMembers.includes(username) && <Link className='btn btn-confirm' to={`/trips/${tripId}/post-review`}>Post a review</Link>}
                 </div>
                 
                 <div className="row">
@@ -298,11 +356,28 @@ export const TripView = () => {
                         <textarea type="text" placeholder='Body' value={replyFormBody} onChange={e => {setReplyFormBody(e.target.value)}} />
                     </div>
                     
-                    <label>Suggested Time:{replyFormSuggestedTime}</label>
+
+                    
+                    <h5>
+                        
+                        <input type="checkbox" checked={replyFormSuggestedTimeCheck} onChange={e => {setReplyFormSuggestedTimeCheck(Boolean(e.target.checked))}} />
+ 
+                        Suggested time: {replyFormSuggestedTime}
+                        
+                    </h5>
                     <TimeSelector handleTimeSubmit = {handleTimeSubmit}></TimeSelector>
-                    {replyFormSuggestedRoute && <p>Selected route: {replyFormSuggestedRoute}</p>}
+
+
+                    <h5>
+                        
+                        <input type="checkbox" checked={replyFormSuggestedRouteCheck} onChange={e => {setReplyFormSuggestedRouteCheck(Boolean(e.target.checked))}} />
+ 
+                        Suggested Route: {replyFormSuggestedRoute}
+                        
+                    </h5>
+                    
                     <RouteSelector handleRouteSubmit={handleRouteSubmit}></RouteSelector>
-                    <button onClick={handleReplySubmit}>Submit</button>
+                    <button className='btn-submit-reply' onClick={handleReplySubmit}>Submit</button>
                 </div>
                 
                 {success && <h1>{success}</h1>}

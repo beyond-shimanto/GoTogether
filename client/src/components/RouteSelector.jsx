@@ -1,8 +1,80 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './css/RouteSelector.css'
 
-const areas = [
-  "none",
+
+
+
+export const RouteSelector = (props) => {
+  const [stopPoints, setStopPoints] = useState([])
+
+  function addNewRoutePoint(newRoute){
+    setStopPoints(oldValue => {
+      return [...oldValue, newRoute]
+    })
+  }
+
+  function handleSubmit(){
+    const res = stopPoints.join(' -> ')
+
+    props.handleRouteSubmit(res)
+
+  }
+
+  function handleRoutePointDelete(routePoint){
+    setStopPoints(stopPoints.filter((sp) => {
+      if (sp == routePoint){
+        return false
+      }
+      return true
+    }))
+  }
+
+  useEffect(() => {
+    handleSubmit()
+  }, [stopPoints])
+
+
+  return (
+    <div className='route-selector'>
+
+      {stopPoints.map(sp => {
+        return <RoutePoint pointName={sp} handleRoutePointDelete={handleRoutePointDelete} ></RoutePoint>
+      })}
+      <AddRoutePointButton addNewRoutePoint={addNewRoutePoint} ></AddRoutePointButton>
+    </div>
+  )
+}
+
+
+
+function RoutePoint(props){
+
+  function handleClick(){
+    props.handleRoutePointDelete(props.pointName)
+  }
+
+  return(
+       <div className='route-point'>
+        <div className="circle-holder">
+            <div className="circle" onClick={handleClick}>
+              <h6>Delete</h6>
+            </div>
+            <p>{props.pointName}</p>
+          </div>
+          <div className="line-holder">
+            <div className="line"></div>
+          <div className='arrow-head'></div>
+        </div>
+    </div>
+
+  )
+
+
+}
+
+function AddRoutePointButton(props){
+
+  const areas = [
   "Motijheel",
   "Gulshan",
   "Banani",
@@ -15,75 +87,41 @@ const areas = [
   "Old Dhaka"
 ];
 
-export const RouteSelector = (props) => {
+  const [selectClass, setSelectClass] = useState('hide')
+  const [addLabelClass, setAddLabelClass] = useState('')
+  const [newRoutePoint, setNewRoutePoint] = useState('')
 
-  const [start, setStart] = useState('none')
-  const [end, setEnd] = useState('none')
-  const [stops, setStops] = useState([])
-  const [currentSelectedStop, setCurrentSelectedStop] = useState('none')
+  function handleClick(){
 
-  function handleAddToStop(stop){
-    if (stop == 'none'){
-      return
-    }
-    if (stops.includes(stop)){
-      return
+    if(newRoutePoint){
+      props.addNewRoutePoint(newRoutePoint)
+      setNewRoutePoint('')
     }
 
-    setStops(prevValue => {
-      return [...prevValue, stop]
-    } )
+    if (selectClass === 'hide'){
+      setAddLabelClass('hide')
+      setSelectClass('')
+    }else{
+      setAddLabelClass('')
+      setSelectClass('hide')
+    }
   }
 
-  function handleSubmit(){
-    let res = ''
-    if((start =='none') || (end =='none')){
-      props.handleRouteSubmit(res)
-      return
-    }
-    res = `${start} -> `
-    for(let s of stops){
-      res = res + `${s} -> `
-    }
-    res = res + `${end}`
-
-    props.handleRouteSubmit(res)
-
-  }
-
-  return (
-    <div className='route-selector'>
-      <h4>ROUTE:</h4>
-        <h5>start: </h5>
-        <select onChange={e => setStart(e.target.value)}>
+    return(
+       <div className='btn-add-stop-point'>
+        <div className="circle-holder">
+          <div className="circle" onClick={handleClick}>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 12H20M12 4V20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            <p className={addLabelClass}>Add</p>
+          </div>
+          <select className={selectClass} onChange={e => setNewRoutePoint(e.target.value)}>
           {areas.map(a => {
             return <option key={a} value={a}>{a}</option>
           })}
         </select>
-
-
-
-        <h5>End:</h5>
-        <select onChange={e => setEnd(e.target.value)}>
-          {areas.map(a => {
-            return <option key={a} value={a}>{a}</option>
-          })}
-        </select>
-
-        <h5>Stops: </h5>
-        {stops.map(s => {
-          return <p key={s}>{s}</p>
-        })}
-        <select onChange={e => setCurrentSelectedStop(e.target.value)}>
-          {areas.map(a => {
-            return <option key={a} value={a}>{a}</option>
-          })}
-        </select>
-        <button onClick={e => handleAddToStop(currentSelectedStop)}>Add</button>
-
-        <br></br>
-        <button onClick={handleSubmit}>Submit</button>
-
+          </div>
     </div>
+
   )
+
 }

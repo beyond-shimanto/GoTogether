@@ -76,10 +76,24 @@
         
     }
 
-    h1{
+
+    .secondary-header{
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h1{
         padding: 0rem 3rem;
         font-size: 1.5rem;
+        }
+
+
+
+
     }
+
+    
 
     .trips-container{
         padding: 3rem;

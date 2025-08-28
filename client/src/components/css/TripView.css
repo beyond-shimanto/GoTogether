@@ -99,7 +99,7 @@
     }
 
     .reply-fields-container.show{
-        height: 600px;
+        height: 800px;
     }
 
     .reply-fields-container{
@@ -134,6 +134,23 @@
                 height: 80%;
             }
 
+        }
+
+        .btn-submit-reply{
+            all:unset;
+            background-color: #ffb732;
+            color: black;
+            transition: 0.3s ease-in;
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 1.5rem;
+
+            
+
+        }
+
+        .btn-submit-reply:hover{
+            background-color: #9e6b0c;
         }
 
     }

@@ -23,6 +23,9 @@ export const PostTrip = () => {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
 
+    const[scheduledDay, setScheduledDay] = useState('')
+    const[scheduledTime, setScheduledTime] = useState('')
+
     const [authLoading, setAuthLoading] = useState(true)
     useEffect(()=>{
 
@@ -50,12 +53,13 @@ export const PostTrip = () => {
     }
 
     async function handleSubmit(){
+
         handleAuth()
         if (!title){
             setError('Title can not be empty')
             return
         }
-        if (!tentativeRoute){
+        if (tentativeRoute.split(' -> ').length < 2){
             setError('Route can not be empty')
             return
         }
@@ -64,13 +68,52 @@ export const PostTrip = () => {
             return
         }
 
+        let isScheduled = 0
+        let postScheduledDateTime = ''
 
+        if (scheduledDay && scheduledTime){
+
+            if (   (!(scheduledTime.split(':').length === 2)) || (!(scheduledDay.split(':').length === 3))  ){
+                console.log('here 1')
+                setError('Invalid schedule time format')
+                return
+            }
+
+
+            if ( (!(!!scheduledDay.split(':')[0].match(/^\d+$/))) || (!(!!scheduledTime.split(':')[0].match(/^\d+$/))) || (!(!!scheduledDay.split(':')[1].match(/^\d+$/))) || (!(!!scheduledTime.split(':')[1].match(/^\d+$/))) || (!(!!scheduledDay.split(':')[2].match(/^\d+$/)))   ) {
+                console.log('here 2')
+                setError('Invalid schedule time format')
+                return
+            }
+
+            if (Number(scheduledTime.split[0]) > 24 || Number(scheduledTime.split[0]) < 0 || Number(scheduledTime.split[1]) > 60 || Number(scheduledTime.split[1]) < 0){
+                console.log('here 3')
+                setError('Invalid schedule time format')
+                return
+            }
+
+             if (scheduledDay.split[1] > 12 || scheduledTime.split[1] < 0 || scheduledTime.split[2] > 31 || scheduledTime.split[2] < 0){
+                console.log('here 4')
+                setError('Invalid schedule time format')
+                return
+            }
+
+            isScheduled = 1
+            postScheduledDateTime = `${scheduledDay} ${scheduledTime}:00`
+
+        }
+
+
+        
 
         const reqData = {
             title: title,
             body: body,
             tentativeRoute: tentativeRoute,
-            tentativeTime: tentativeTime
+            tentativeTime: tentativeTime,
+            isScheduled: isScheduled,
+            postScheduledTime: postScheduledDateTime
+
         }
 
 
@@ -128,7 +171,13 @@ export const PostTrip = () => {
             <TimeSelector handleTimeSubmit={handleTimeSubmit}></TimeSelector>
             <p>Route: {tentativeRoute}</p>
             <RouteSelector handleRouteSubmit = {handleRouteSubmit}></RouteSelector>
-            <button onClick={handleSubmit}>POST</button>
+
+            <h4>Scheduled Time: (leave empty to post instantly)</h4>
+
+            <input type="text" placeholder='hh:mm' className='scheduled_time_input_field'  value={scheduledTime} onChange={e => {setScheduledTime(e.target.value)}} />
+            <input type="text" placeholder='yyyy-mm-dd' className='scheduled_day_input_field' value={scheduledDay} onChange={e => {setScheduledDay(e.target.value)}} />
+ 
+            <button className='btn-post-trip' onClick={handleSubmit}>POST</button>
             {error && <h3>Error: {error}</h3>}
             {success && <h3>Success: {success}</h3>}
 

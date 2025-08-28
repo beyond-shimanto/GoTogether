@@ -11,6 +11,8 @@ import { Home } from './components/Home.jsx'
 import { useContext } from 'react'
 import AuthProvider, { AuthContext } from './AuthContext.jsx'
 import { ChatView } from './components/ChatView.jsx'
+import { ProfileView } from './components/ProfileView.jsx'
+import { PostReview } from './components/PostReview.jsx'
 
 
 const router = createBrowserRouter([
@@ -41,6 +43,13 @@ const router = createBrowserRouter([
   },
   {path: '/trips/:tripId/chat',
     element: <ChatView></ChatView>
+  },
+  {
+    path: '/trips/:tripId/post-review',
+    element: <PostReview></PostReview>
+  },
+  {path: '/profiles/:route_username',
+    element: <ProfileView></ProfileView>
   }
 
 ])

@@ -1,4 +1,49 @@
 .time-selector{
-    border: 1px solid lime;
     padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    height: 220px;
+
+    .wheel{
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        height: 100%;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        box-shadow: 0 0 5px rgba(255,255,255,0.2);
+
+
+        .option{
+            width: 100%;
+            font-size: 2rem;
+            padding: 0 3rem;
+            scroll-snap-align: center;
+            cursor: pointer;
+            transition: 0.2s ease-in;
+            text-align: center;
+        }
+
+        .option.selected{
+            
+            background-color: #ffb732;
+            font-size: 2.2rem;
+        }
+
+    }
+
+    
+    .wheel::-webkit-scrollbar {
+        display: none;
+    }
+    span{
+        font-size: 5rem;
+    }
 }

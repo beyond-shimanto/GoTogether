@@ -1,0 +1,108 @@
+.chat-view{
+    height: 100vh;
+    width: 100%;
+    background-color: #131313;
+    color: white;
+    font-family: 'Space Mono';
+
+
+    .header{
+        height: 10vh;
+        background-color: #ffb732;
+        font-size: 2rem;
+        color: black;
+        border-bottom: 3px solid gray;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        padding: 1rem;
+    }
+
+    .texts-container{
+
+        padding: 1rem 3rem;
+        overflow-y: scroll;
+
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        justify-content: end;
+
+        width: 100%;
+        height: 80vh;
+
+        .text-container{
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 1rem;
+
+            .text-username-container{
+                background-color: #ffb732;
+                color: black;
+                padding: 1rem;
+                border-radius: 50px;
+            }
+
+            .text-body-container{
+                background-color: #ffb732;
+                padding: 1rem 5rem;
+                border-radius: 50px;
+                max-width: 75%; 
+                color: black;
+            }
+
+        }
+    }
+
+    .text-container.self{
+        align-self: end;
+
+        .text-username-container{
+            order: 3;
+            color: white;
+        }
+        .text-body-container{
+            order: 1;
+            background-color: gray;
+        }
+
+        span{
+            order: 2;
+            font-size: 3rem;
+        }
+    }
+
+    .chat-fields-container{
+        display: flex;
+        height: 10vh;
+        padding: 1rem 1rem;
+
+        input{
+            all: unset;
+            flex: 1;
+            border-bottom: 2px solid #ffb732ad;
+
+            transition: 0.3s ease-in;
+        }
+        input:active{
+            border-bottom: 2px solid rgba(255,255,255,0.7);
+        }
+        button{
+
+            all:unset;
+            flex-basis: 200px;
+            background-color: #ffb732;
+            color: black;
+            border-radius: 50px;
+            text-align: center;
+            transition: 0.3s ease-in;
+            cursor: pointer;
+
+            
+        }
+
+        button:hover{
+            background-color: #a36f0d;
+        }
+    }
+}

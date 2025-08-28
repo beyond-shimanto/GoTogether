@@ -1,0 +1,75 @@
+.profile-view{
+    padding: 4rem;
+
+    font-family: 'Space mono';
+    background-color: #131313;
+    color: white;
+
+    min-height: 100vh;
+
+
+    .header{
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+
+        
+        .btn{
+            
+            all: unset;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 5%;
+            color: #131313;
+            transition: 0.4s ease;
+
+        }
+
+        .btn:hover{
+            cursor: pointer;
+        }
+
+        .btn{
+            background-color: #ffb732;
+        }
+
+        .btn:hover{
+            background-color: #d6951c;
+        }
+
+        a.logo-link{
+            all:unset;
+         
+
+            .logo{
+            padding: 0.5rem;
+            align-self: start;
+            font-size: 2rem;
+            line-height: 2rem;
+            span{
+                color: #ffb732;
+            }
+            transition: 0.2s ease;
+            width: fit-content;
+
+            }
+
+            .logo:hover{
+                cursor: pointer;
+                background-color: #88888820;
+            }
+        }
+    }
+
+    .row{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 3rem 0;
+        svg{
+            width: 140px;
+        }
+    }
+}

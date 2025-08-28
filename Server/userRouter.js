@@ -47,6 +47,8 @@ userRouter.post('/signup', async (req, res) => {
         const passwordHash = await bcrypt.hash(req.body.password, salt)
         const username = req.body.username.toLowerCase()
         const email = req.body.email.toLowerCase()
+        const date_of_birth = req.body.date_of_birth
+        const full_name = req.body.full_name
 
         const ct = new Date()
         const timeStamp = `${ct.getUTCFullYear()}-${ct.getUTCMonth()}-${ct.getUTCDate()} ${ct.getUTCHours()}:${ct.getUTCMinutes()}:${ct.getUTCSeconds()}`
@@ -54,8 +56,8 @@ userRouter.post('/signup', async (req, res) => {
         const is_verified = 0;
         const is_under_review = 0;
 
-        await db.query('INSERT INTO user (username, email, password_hash, registered_at,is_verified, is_under_review) values (?, ?, ?, ?, ?, ?)',
-            [username, email, passwordHash, timeStamp, is_verified, is_under_review]
+        await db.query('INSERT INTO user (username, email, password_hash, registered_at,is_verified, is_under_review, full_name, date_of_birth) values (?, ?, ?, ?, ?, ?, ?, ?)',
+            [username, email, passwordHash, timeStamp, is_verified, is_under_review, full_name,date_of_birth]
         )
         
         console.log('\nCONSOLE: User successfully created')

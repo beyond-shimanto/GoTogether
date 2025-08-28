@@ -14,10 +14,13 @@ tripRouter.use('/chat', chatRouter)
 
 //Get all trips info
 tripRouter.get('', validateAuthentication, async (req, res) => {
+
+    const date = new Date()
+    const timeDateString = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')} ${date.getUTCHours()}:${date.getUTCMinutes()}:00`
     
 
     try{
-        const [results, fields] = await db.query('SELECT *, r.route AS route_string, t.id AS trip_id FROM trip t INNER JOIN route r ON t.tentative_route = r.id ORDER BY created_at DESC')
+        const [results, fields] = await db.query('SELECT *, r.route AS route_string, t.id AS trip_id FROM trip t INNER JOIN route r ON t.tentative_route = r.id WHERE (is_scheduled = 0) OR (is_scheduled = 1 AND post_scheduled_time < ?) ORDER BY created_at DESC', [timeDateString])
         res.status(200).json(results)
     }
     catch(e){
@@ -36,16 +39,36 @@ tripRouter.post('/post', validateAuthentication, async (req, res) => {
     const tentativeRoute = req.body.tentativeRoute
     const tentativeTime = req.body.tentativeTime
     const username = req.body.username
+    let isScheduled = 0
+    let postScheduledTime
+    if (req.body.isScheduled == 1){
+        isScheduled = req.body.isScheduled
+        postScheduledTime = req.body.postScheduledTime
+    }
+
+    
     
     const ct = new Date()
     const timeStamp = `${ct.getUTCFullYear()}-${ct.getUTCMonth()}-${ct.getUTCDate()} ${ct.getUTCHours()}:${ct.getUTCMinutes()}:${ct.getUTCSeconds()}`
 
     try{
         const [routeResult] = await db.query("INSERT INTO route (route) values (?)", [tentativeRoute])
-        const [tripResult] = await db.query("INSERT INTO trip (created_at, username, title, body, tentative_route, tentative_time) values (?, ?, ? ,?, ?, ?)",
-        [timeStamp, username, title, body, routeResult.insertId , tentativeTime]
-        )
-        res.status(201).json({message: 'Successfully posted trip'})
+
+        if (!isScheduled){
+            const [tripResult] = await db.query("INSERT INTO trip (created_at, username, title, body, tentative_route, tentative_time) values (?, ?, ? ,?, ?, ?)",
+            [timeStamp, username, title, body, routeResult.insertId , tentativeTime]
+            )
+            res.status(201).json({message: 'Successfully posted trip'})
+        }
+        else{
+
+            const [tripResult] = await db.query("INSERT INTO trip (created_at, username, title, body, tentative_route, tentative_time, is_scheduled, post_scheduled_time) values (?, ?, ? ,?, ?, ?, ?, ?)",
+            [timeStamp, username, title, body, routeResult.insertId , tentativeTime, 1, postScheduledTime]
+            )
+            res.status(201).json({message: 'Successfully posted trip'})
+        }
+
+        
 
     }
     catch(e){

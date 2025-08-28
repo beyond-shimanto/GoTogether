@@ -3,6 +3,7 @@ import { AuthContext } from '../AuthContext'
 import { useParams, useSearchParams } from 'react-router-dom'
 import {io} from 'socket.io-client'
 
+import './css/ChatView.css'
 
 export const ChatView = () => {
 
@@ -92,15 +93,34 @@ export const ChatView = () => {
 
   return (
     <>
-    
-    <h3>Text: </h3>
-    <input type="text" onChange={e => setTextBoxText(e.target.value)}/>
-    <button onClick={handleTextSend}>send</button>
-    <div className="texts" style={{border: '2px solid grey'}}>
-        {texts.map( t => {
-          return <p key={t.id}>{t.username}: {t.body}</p>
-        })}
+
+    <div className="chat-view">
+          <div className="header">Trip Chat</div>
+          <div className="texts-container">
+             {texts.map( t => {
+              return <div className={username == t.username? "text-container self": "text-container"}>
+                <div className= "text-username-container">   
+                  {t.username}
+                </div>
+                <span>:</span>
+                <div className="text-body-container">
+                  {t.body}
+                </div>
+              </div>
+            })}
+          </div>
+
+          <div className="chat-fields-container">
+            <input type="text" placeholder='Text' onChange={e => setTextBoxText(e.target.value)} value={textBoxText}/>
+            <button onClick={handleTextSend}>send</button>
+          </div>
+          
+
+            
+
     </div>
+    
+
     </>
   )
 }

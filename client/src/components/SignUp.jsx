@@ -24,15 +24,40 @@ export const SignUp = () => {
 
 
     async function handleSignup(){
-        if (!formPassword || !formUsername || !formEmail){
+        if (!formPassword || !formUsername || !formEmail || !formFullName || !formDateOfBirth){
             setError('Fields can not be empty')
             return
         }
+
+        let dob_arr = formDateOfBirth.split('-')
+        if (!(dob_arr.length === 3)){
+            setError('Invalid date of birth format')
+            return
+        }
+        if (  (!(dob_arr[0].length === 4)) || (!(dob_arr[1].length === 2)) || (!(dob_arr[2].length === 2))  ){
+            setError('Invalid date of birth format')
+            return
+        }
+
+        if ((Number(dob_arr[1]) > 12) || (Number(dob_arr[1]) < 0)){
+            setError('Invalid date of birth format')
+            return
+        }
+
+        if ((Number(dob_arr[2]) > 31) || (Number(dob_arr[2]) < 0)){
+            setError('Invalid date of birth format')
+            return
+        }
+        
+        
+
         try{
             const reqData = {
                 username: formUsername.toLowerCase(),
                 password: formPassword,
-                email: formEmail.toLowerCase()
+                email: formEmail.toLowerCase(),
+                date_of_birth: formDateOfBirth,
+                full_name: formFullName
             }
             const res = await axiosInstance.post('/users/signup', reqData)
             setSucces('Succesfully signed up!')
@@ -82,9 +107,9 @@ export const SignUp = () => {
                     <label>username: </label>
                     <input type="text" value={formUsername} onChange={e => setFormUsername(e.target.value)}/>
                     <label>Full name: </label>
-                    <input type="text" value={formUsername} onChange={e => setFormFullName(e.target.value)}/>
+                    <input type="text" value={formFullName} onChange={e => setFormFullName(e.target.value)}/>
                     <label>Date of Birth: </label>
-                    <input type="text" value={formUsername} onChange={e => setFormDateOfBirth(e.target.value)}/>
+                    <input type="text" placeholder='YYYY-MM-DD' value={formDateOfBirth} onChange={e => setFormDateOfBirth(e.target.value)}/>
                     <label>email: </label>
                     <input type="text" value={formEmail} onChange={e => setFormEmail(e.target.value)}/>
                     <label>password: </label>

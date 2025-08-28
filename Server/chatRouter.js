@@ -7,6 +7,46 @@ import express from 'express'
 export const chatRouter = express.Router({mergeParams: true})
 
 
+chatRouter.post('/:tripId/create-chat', validateAuthentication, async (req,res) => {
+    console.log('we here')
+    const parent_trip_id = req.params.tripId
+    const username = req.body.username
+
+    try{
+        const [trip_results, trip_fields] = await db.query('SELECT username FROM trip WHERE id = ?', [parent_trip_id])
+        if (!(trip_results[0].username === username)){
+            res.status(400).json({error: 'Could not create chat'})
+            return
+        }
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).json({error: 'Could not create chat'})
+        return
+
+    }
+
+    try{
+        await db.query('INSERT INTO chat_box (parent_trip_id) values (?)',[parent_trip_id])
+        res.status(200).json({message: 'Successfully created chat'})
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).json({error: 'Could not create chat'})
+    }
+})
+
+chatRouter.get('/:tripId/get-chat', validateAuthentication, async (req,res) => {
+    const parent_trip_id = req.params.tripId
+
+    try{
+        const [results, fields] = await db.query('SELECT * FROM chat_box WHERE parent_trip_id = ?', [parent_trip_id])
+        res.status(200).json(results)
+    }
+    catch(e){
+        res.status(500).json({error: 'Could not retrieve chat'})
+    }
+})
 
 
 chatRouter.get('/:tripId/get-chat-members', validateAuthentication, async (req, res) => {
@@ -72,7 +112,7 @@ chatRouter.post('/:tripId/add-text', validateAuthentication, async (req, res) =>
 chatRouter.get('/:tripId/get-texts', validateAuthentication, async (req, res) => {
     const tripId = req.params.tripId
     try{
-        const [texts_results, fields] = await db.query('SELECT id, username, body FROM chat_text WHERE parent_trip_id = ?', [tripId])
+        const [texts_results, fields] = await db.query('SELECT id, username, body FROM chat_text WHERE parent_trip_id = ? ORDER BY created_at', [tripId])
         res.status(200).json(texts_results)
 
     }catch(e){

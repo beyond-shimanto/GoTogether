@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import './css/TimeSelector.css'
 
-const hours = ['none']
+const hours = []
 let i = 0
 while (i <= 24){
     hours.push(i)
     i = i+1
 }
-const minutes = ['none']
+const minutes = []
 let k = 0
 while (k <= 60){
     minutes.push(k)
@@ -17,48 +17,49 @@ while (k <= 60){
 
 const TimeSelector = (props) => {
 
-    const [tentativeTime_hour, setTentativeTime_hour] = useState('none')
-    const [tentativeTime_minute, setTentativeTime_minute] = useState('none')
+    const [tentativeTime_hour, setTentativeTime_hour] = useState(0)
+    const [tentativeTime_minute, setTentativeTime_minute] = useState(0)
+
+    useEffect(()=> {
+        handleSubmit()
+    }, [tentativeTime_hour, tentativeTime_minute])
 
     function handleSubmit()
     {
-        if ((tentativeTime_hour == 'none') || (tentativeTime_minute == 'none')){
-            props.handleTimeSubmit('')
-            return
-        }
+        const timeString = `${String(tentativeTime_hour).padStart(2, "0")}:${String(tentativeTime_minute).padStart(2, "0")}`;        
 
-        const res = tentativeTime_hour + ':' + tentativeTime_minute
-
-        props.handleTimeSubmit(res)
+        props.handleTimeSubmit(timeString)
     }
 
   return (
     <> 
     <div className="time-selector">
-        <label>Hours:</label>
-        <select onChange={e => setTentativeTime_hour(e.target.value)}>
-            {hours.map(h => {
-                let k = h.toString()
-                if(k.length < 2){
-                    k = '0' + k
-                }
-                return <option value={k} key={k}>{k}</option>
-            })}
+        <p>Hours</p>
+        <div className="wheel">
+        {hours.map((h) => (
+          <div
+            key={h}
+            className={`option ${h == tentativeTime_hour ? "selected" : ""}`}
+            onClick={() => setTentativeTime_hour(h)}
+          >
+            {String(h).padStart(2,'0')}
+          </div>
+        ))}
+      </div>
+        <span className="colon">:</span>
 
-        </select>
-            
-            <label>Minutes:</label>     
-            <select onChange={e => setTentativeTime_minute(e.target.value)}>
-                {minutes.map(m => {
-                    let k = m.toString()
-                    if(k.length < 2){
-                        k = '0' + k
-                    }
-                    return <option key={k} value={k}>{k}</option>
-                })}
-            </select>
-
-        <button onClick={handleSubmit}>Submit</button>
+      <div className="wheel">
+        {minutes.map((m) => (
+          <div
+            key={m}
+            className={`option ${m == tentativeTime_minute ? "selected" : ""}`}
+            onClick={() => setTentativeTime_minute(m)}
+          >
+            {String(m).padStart(2, '0')}
+          </div>
+        ))}
+      </div>
+        <p>Minutes</p>
 
     </div>
 
@@ -69,3 +70,6 @@ const TimeSelector = (props) => {
 }
 
 export default TimeSelector
+
+
+

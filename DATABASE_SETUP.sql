@@ -6,7 +6,7 @@ CREATE TABLE user(
 	registered_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	is_verified tinyint NOT NULL DEFAULT 0,
 	is_under_review tinyint NOT NULL DEFAULT 0,
-	date_of_birth date NOT NULL
+	date_of_birth date NOT NULL	
 );
 
 CREATE TABLE route(
@@ -23,6 +23,8 @@ CREATE TABLE trip (
 	body text,
 	tentative_route integer NOT NULL,
 	tentative_time varchar(255) NOT NULL,
+	is_scheduled tinyint DEFAULT 0,
+	post_scheduled_time datetime DEFAULT NULL,
 	PRIMARY KEY(id),
 	CONSTRAINT fk_trip_user
 		FOREIGN KEY(username) REFERENCES user(username)
@@ -52,6 +54,14 @@ CREATE TABLE trip_reply(
 	CONSTRAINT fk_trip_suggested_route_id
 		FOREIGN KEY (suggested_route) REFERENCES route(id)
 		ON DELETE RESTRICT
+);
+
+CREATE TABLE chat_box(
+	parent_trip_id integer PRIMARY KEY,
+	created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT fk_chat_box_trip
+		FOREIGN KEY (parent_trip_id) REFERENCES trip(id)
+		ON DELETE CASCADE
 );
 
 CREATE TABLE chat_enrollment(
