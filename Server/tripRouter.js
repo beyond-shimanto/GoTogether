@@ -289,3 +289,25 @@ tripRouter.delete('/delete-reply/:reply_id', validateAuthentication, async (req,
 
 })
 
+
+
+// ANINDYA'S PART
+
+tripRouter.post('/:tripId/create-review',validateAuthentication, async (req, res) => {
+    const tripId = req.params.tripId
+    const username = req.body.username
+    const revieweeUsername = req.body.revieweeUsername
+    const rating = req.body.rating
+    const review = req.body.review
+
+    try {
+        await db.query('INSERT INTO review (trip_id, reviewer_username, reviewee_username, rating, review) values (?,?,?,?,?)', [tripId, username, revieweeUsername, Number(rating), review])
+        res.status(201).json({message: 'Successfully added review'})
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).json({message: 'Server error while adding review'})
+    }
+
+})
+
