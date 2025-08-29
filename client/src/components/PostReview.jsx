@@ -77,6 +77,7 @@ export const PostReview = () => {
         <select onChange={e => {setFormReviewFor(e.target.value)}}>
             <option value='' >None</option>
             {chatMembers.map(cm => {
+                if(cm == username){return}
                 return <option key={cm} value={cm} >{cm}</option>
             })}
         </select>
